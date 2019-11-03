@@ -1,0 +1,24 @@
+{
+  "name": "vidly",
+  "version": "1.0.0",
+  "description": "rent movies online - nodejs-express",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/A-M-Alizadeh/vidly.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/A-M-Alizadeh/vidly/issues"
+  },
+  "homepage": "https://github.com/A-M-Alizadeh/vidly#readme",
+  "dependencies": {
+    "@hapi/joi": "^16.1.7",
+    "express": "^4.17.1"
+  }
+}
