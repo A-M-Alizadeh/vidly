@@ -19,6 +19,11 @@
   "homepage": "https://github.com/A-M-Alizadeh/vidly#readme",
   "dependencies": {
     "@hapi/joi": "^16.1.7",
-    "express": "^4.17.1"
+    "config": "^3.2.4",
+    "debug": "^4.1.1",
+    "express": "^4.17.1",
+    "helmet": "^3.21.2",
+    "morgan": "^1.9.1",
+    "pug": "^2.0.4"
   }
 }

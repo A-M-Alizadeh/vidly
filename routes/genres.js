@@ -1,30 +1,25 @@
 const express = require('express');
-const Joi = require('@hapi/joi');
-const app = express();
-const body = app.use(express.json());
+const router = express.Router();
 
 //variables
 const genres = [
     { id: 1, name: 'Romantic'},
-    { id: 2, name: 'Horror'},
+    { id: 2, name: 'Horror'}, 
     { id: 3, name: 'Action'},
     { id: 4, name: 'Fiction'},
     { id: 5, name: 'Documentary'},
     { id: 6, name: 'Thriller'},
     { id: 7, name: 'Drama'},
     { id: 8, name: 'Mystery'},
-]
-
-const PORT = process.env.PORT || 3000
-//variables
+] 
 
 //==========================================================get all genres
-app.get('/api/genres',(req, resp)=>{
+router.get('/',(req, resp)=>{
     resp.send(genres)
 });
 
 //==========================================================find a genre
-app.get('/api/genres/:id',(req, resp)=>{
+router.get('/:id',(req, resp)=>{
     const genre = genres.find(g=>{return g.id == parseInt(req.params.id)})
     if(!genre)return resp.status(404).send('Genre with given id was not found');
     resp.send(genre)
@@ -32,7 +27,7 @@ app.get('/api/genres/:id',(req, resp)=>{
 
 
 //==========================================================add a genre
-app.post('/api/genres',(req, resp)=>{
+router.post('/',(req, resp)=>{
     //validate genre
     const {error} = validateGenre(req.body);
     if(error) return resp.status(400).send(error.details[0].message);
@@ -47,7 +42,7 @@ app.post('/api/genres',(req, resp)=>{
 
 
 //==========================================================update a genre
-app.put('/api/genres/:id',(req, resp)=>{
+router.put('/:id',(req, resp)=>{
     //check if id exists
     const genre = genres.find(g=>{return g.id == parseInt(req.params.id)})
     if(!genre)return resp.status(404).send('Genre with given id was not found');
@@ -63,7 +58,7 @@ app.put('/api/genres/:id',(req, resp)=>{
 
 
 //==========================================================delete a genre
-app.delete('/api/genres/:id',(req, resp)=>{
+router.delete('/:id',(req, resp)=>{
     //check if id exists
     const genre = genres.find(g=>{return g.id == parseInt(req.params.id)})
     if(!genre)return resp.status(404).send('Genre with given id was not found');
@@ -85,7 +80,4 @@ const validateGenre = (genre)=>{
     return schema.validate(genre);
 }
 
-//==========================================================listening port
-app.listen(PORT,()=>{
-    console.log(`listening on port ${PORT} ...`)
-})
+module.exports = router;
