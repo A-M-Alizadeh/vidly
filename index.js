@@ -39,7 +39,7 @@ if(process.env.NODE_ENV === 'development'){
     app.use(morgan('tiny'));
     debugStartup('morgan enabled...');
 }
-
+//connecting to db
 mongoose
 .connect('mongodb://localhost/vidly', {
     useNewUrlParser: true
@@ -51,9 +51,14 @@ mongoose
     console.log('Could not connect to MongoDB !');
 });
 
-
 //==========================================================listening port
 const PORT = process.env.PORT || 3000
 app.listen(PORT,()=>{
     console.log(`listening on port ${PORT} ...`)
-})
+});
+
+
+
+//$env:DEBUG="app:startup"
+//$env:PORT=1234
+//$env:vidly_mail_password="12345"

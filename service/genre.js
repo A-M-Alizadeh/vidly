@@ -11,23 +11,26 @@ const Genre = mongoose.model('Genre', new mongoose.Schema({
     },
 }));
 
-export const saveGenre = async(name)=>{
+const saveGenre = async(name)=>{
+    console.log('savinnnnng...')
     let genre = new Genre({name: name});
     return await genre.save();
 }
 
-export const updateGenre = async(id, name)=>{
+const updateGenre = async(id, name)=>{
     return await Genre.findByIdAndUpdate(id,{name:name},{new:true})
 }
 
-export const deleteGenre = async(id)=>{
+const deleteGenre = async(id)=>{
     return await Genre.findByIdAndRemove(id);
 }
 
-export const findGenreById = async(id)=>{
+const findGenreById = async(id)=>{
     return await Genre.findById(id);
 }
 
-export const getAllGenres = async()=>{
+const getAllGenres = async()=>{
     return await Genre.find().sort('name');
 }
+
+module.exports = {saveGenre,updateGenre,deleteGenre,findGenreById,getAllGenres}

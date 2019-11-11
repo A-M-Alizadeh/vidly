@@ -1,8 +1,8 @@
 const express = require('express');
+const Joi = require('@hapi/joi');
 const router = express.Router();
-import { getAllGenres,findGenreById,updateGenre,deleteGenre } from './service/genre'
-import { saveGenre } from '../service/genre';
 
+const genreDB = require('./../service/genre');
 //variables
 const genres = [
     { id: 1, name: 'Romantic'},
@@ -17,7 +17,7 @@ const genres = [
 
 //==========================================================get all genres
 router.get('/',async (req, resp)=>{
-    resp.send(await getAllGenres())
+    resp.send(await genreDB.getAllGenres());
 });
 
 //==========================================================add a genre
@@ -31,7 +31,7 @@ router.post('/',async (req, resp)=>{
     //         name: req.body.name,
     // }
     // genres.push(genre);
-    resp.send(await saveGenre(req.body.name));
+    resp.send(await genreDB.saveGenre(req.body.name));
 });
 
 //==========================================================update a genre
@@ -41,7 +41,7 @@ router.put('/:id',async (req, resp)=>{
     if(error) return resp.status(400).send(error.details[0].message);
 
     //updaing genre
-    const genre = await updateGenre(req.params.id, req.params.name);
+    const genre = await genreDB.updateGenre(req.params.id, req.params.name);
     //check if id exists
     if(!genre)return resp.status(404).send('Genre with given id was not found');
     //update genre
@@ -52,7 +52,7 @@ router.put('/:id',async (req, resp)=>{
 //==========================================================delete a genre
 router.delete('/:id',async (req, resp)=>{
     //delete genre
-    const genre = await updateGenre(req.params.id);
+    const genre = await genreDB.deleteGenre(req.params.id);
     //check if id exists
     if(!genre)return resp.status(404).send('Genre with given id was not found');
     //return the same genre
@@ -61,7 +61,7 @@ router.delete('/:id',async (req, resp)=>{
 
 //==========================================================find a genre
 router.get('/:id',async (req, resp)=>{
-    const genre = await findGenreById(id);
+    const genre = await genreDB.findGenreById(id);
     if(!genre)return resp.status(404).send('Genre with given id was not found');
     resp.send(genre)
 });
