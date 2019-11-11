@@ -41,7 +41,7 @@ router.put('/:id',async (req, resp)=>{
     if(error) return resp.status(400).send(error.details[0].message);
 
     //updaing genre
-    const genre = await genreDB.updateGenre(req.params.id, req.params.name);
+    const genre = await genreDB.updateGenre(req.params.id, req.body.name);
     //check if id exists
     if(!genre)return resp.status(404).send('Genre with given id was not found');
     //update genre
@@ -61,7 +61,7 @@ router.delete('/:id',async (req, resp)=>{
 
 //==========================================================find a genre
 router.get('/:id',async (req, resp)=>{
-    const genre = await genreDB.findGenreById(id);
+    const genre = await genreDB.findGenreById(req.params.id);
     if(!genre)return resp.status(404).send('Genre with given id was not found');
     resp.send(genre)
 });

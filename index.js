@@ -50,6 +50,7 @@ mongoose
 .catch(() => {
     console.log('Could not connect to MongoDB !');
 });
+mongoose.set('useFindAndModify', false);
 
 //==========================================================listening port
 const PORT = process.env.PORT || 3000

@@ -18,7 +18,8 @@ const saveGenre = async(name)=>{
 }
 
 const updateGenre = async(id, name)=>{
-    return await Genre.findByIdAndUpdate(id,{name:name},{new:true})
+    return await Genre.findByIdAndUpdate(id,{name:name},{new:true});
+    // return await Genre.findOneAndUpdate(id,{name:name},{new:true});
 }
 
 const deleteGenre = async(id)=>{
