@@ -10,6 +10,8 @@ const genres = require('./routes/genres');
 const home = require('./routes/home');
 //-routes
 const logger = require('./middleware/logger');
+const mongoose = require('mongoose');
+
 
 const app = express();
 app.use(express.json());
@@ -37,6 +39,17 @@ if(process.env.NODE_ENV === 'development'){
     app.use(morgan('tiny'));
     debugStartup('morgan enabled...');
 }
+
+mongoose
+.connect('mongodb://localhost/vidly', {
+    useNewUrlParser: true
+})
+.then(() => {
+    console.log('successfully connected to MongoDB...');
+})
+.catch(() => {
+    console.log('Could not connect to MongoDB !');
+});
 
 
 //==========================================================listening port
