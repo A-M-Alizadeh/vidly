@@ -7,6 +7,7 @@ const debugStartup = require('debug')('app:startup');
 const debugRoute = require('debug')('app:routing');
 //routes
 const genres = require('./routes/genres');
+const customers = require('./routes/customers');
 const home = require('./routes/home');
 //-routes
 const logger = require('./middleware/logger');
@@ -28,6 +29,7 @@ app.set('views','./views'); //default
 
 //adding routes
 app.use('/api/genres',genres);
+app.use('/api/customers',customers);
 app.use('/',home);
 
 debugStartup(`Application name: ${config.get('name')}`);

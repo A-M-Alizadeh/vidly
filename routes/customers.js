@@ -1,29 +1,17 @@
 const express = require('express');
 const Joi = require('@hapi/joi');
 const router = express.Router();
-
-const genreDB = require('./../service/genre');
-//variables
-const genres = [
-    { id: 1, name: 'Romantic'},
-    { id: 2, name: 'Horror'}, 
-    { id: 3, name: 'Action'},
-    { id: 4, name: 'Fiction'},
-    { id: 5, name: 'Documentary'},
-    { id: 6, name: 'Thriller'},
-    { id: 7, name: 'Drama'},
-    { id: 8, name: 'Mystery'},
-] 
+const customerDB = require('./../service/customer');
 
 //==========================================================get all genres
 router.get('/',async (req, resp)=>{
-    resp.send(await genreDB.getAllGenres());
+    resp.send(await customerDB.getAllCustomers());
 });
 
 //==========================================================add a genre
 router.post('/',async (req, resp)=>{
     //validate genre
-    const {error} = validateGenre(req.body);
+    const {error} = validateCustomer(req.body);
     if(error) return resp.status(400).send(error.details[0].message);
     //add to genres  
     // const genre={
@@ -31,17 +19,18 @@ router.post('/',async (req, resp)=>{
     //         name: req.body.name,
     // }
     // genres.push(genre);
-    resp.send(await genreDB.saveGenre(req.body.name));
+    console.log(req.body);
+    resp.send(await customerDB.saveCustomer(req.body));
 });
 
 //==========================================================update a genre
 router.put('/:id',async (req, resp)=>{
     //validate body data
-    const {error} = validateGenre(req.body);
+    const {error} = validateCustomer(req.body);
     if(error) return resp.status(400).send(error.details[0].message);
 
     //updaing genre
-    const genre = await genreDB.updateGenre(req.params.id, req.body.name);
+    const genre = await customerDB.updateCustomer(req.params.id, req.body);
     //check if id exists
     if(!genre)return resp.status(404).send('Genre with given id was not found');
     //update genre
@@ -52,7 +41,7 @@ router.put('/:id',async (req, resp)=>{
 //================================================= =========delete a genre
 router.delete('/:id',async (req, resp)=>{
     //delete genre
-    const genre = await genreDB.deleteGenre(req.params.id);
+    const genre = await customerDB.deleteCustomer(req.params.id);
     //check if id exists
     if(!genre)return resp.status(404).send('Genre with given id was not found');
     //return the same genre
@@ -61,7 +50,7 @@ router.delete('/:id',async (req, resp)=>{
 
 //==========================================================find a genre
 router.get('/:id',async (req, resp)=>{
-    const genre = await genreDB.findGenreById(req.params.id);
+    const genre = await customerDB.findCustomerById(req.params.id);
     if(!genre)return resp.status(404).send('Genre with given id was not found');
     resp.send(genre)
 });
@@ -70,11 +59,17 @@ router.get('/:id',async (req, resp)=>{
 
 //==========================================================FUNCTIONS
 
-const validateGenre = (genre)=>{
+const validateCustomer = (genre)=>{
     const schema = Joi.object({
         name: Joi.string()
             .min(3)
             .max(30)
+            .required(),
+        isGold: Joi.string()
+            .required(),
+        phone: Joi.string()
+            .min(10)
+            .max(15)
             .required(),
     });
     return schema.validate(genre);
