@@ -1,23 +1,4 @@
-const mongoose = require('mongoose')
-
-const Customer = mongoose.model('Customer', new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        minlength: 3,
-        maxlength: 50,
-        trim:true,
-    },
-    isGold:{
-        type:Boolean,
-        required:true
-    },
-    phone:{
-        type:String,
-        minlength:10,
-        maxlength:15
-    }
-}));
+const {Customer} = require('./../models/customer');
 
 const saveCustomer = async(newcustomer)=>{
     console.log('savinnnnng customer ...')

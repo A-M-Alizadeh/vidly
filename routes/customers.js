@@ -1,14 +1,14 @@
 const express = require('express');
-const Joi = require('@hapi/joi');
 const router = express.Router();
 const customerDB = require('./../service/customer');
+const {validateCustomer} = require('./../models/customer');
 
 //==========================================================get all genres
 router.get('/',async (req, resp)=>{
     resp.send(await customerDB.getAllCustomers());
 });
 
-//==========================================================add a genre
+//==========================================================add a genre  
 router.post('/',async (req, resp)=>{
     //validate genre
     const {error} = validateCustomer(req.body);
@@ -54,25 +54,5 @@ router.get('/:id',async (req, resp)=>{
     if(!genre)return resp.status(404).send('Genre with given id was not found');
     resp.send(genre)
 });
-
-
-
-//==========================================================FUNCTIONS
-
-const validateCustomer = (genre)=>{
-    const schema = Joi.object({
-        name: Joi.string()
-            .min(3)
-            .max(30)
-            .required(),
-        isGold: Joi.string()
-            .required(),
-        phone: Joi.string()
-            .min(10)
-            .max(15)
-            .required(),
-    });
-    return schema.validate(genre);
-}
 
 module.exports = router;

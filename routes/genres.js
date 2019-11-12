@@ -1,19 +1,7 @@
 const express = require('express');
-const Joi = require('@hapi/joi');
 const router = express.Router();
-
 const genreDB = require('./../service/genre');
-//variables
-const genres = [
-    { id: 1, name: 'Romantic'},
-    { id: 2, name: 'Horror'}, 
-    { id: 3, name: 'Action'},
-    { id: 4, name: 'Fiction'},
-    { id: 5, name: 'Documentary'},
-    { id: 6, name: 'Thriller'},
-    { id: 7, name: 'Drama'},
-    { id: 8, name: 'Mystery'},
-] 
+const {validateGenre} = require('./../models/genre');
 
 //==========================================================get all genres
 router.get('/',async (req, resp)=>{
@@ -65,19 +53,5 @@ router.get('/:id',async (req, resp)=>{
     if(!genre)return resp.status(404).send('Genre with given id was not found');
     resp.send(genre)
 });
-
-
-
-//==========================================================FUNCTIONS
-
-const validateGenre = (genre)=>{
-    const schema = Joi.object({
-        name: Joi.string()
-            .min(3)
-            .max(30)
-            .required(),
-    });
-    return schema.validate(genre);
-}
 
 module.exports = router;
